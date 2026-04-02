@@ -31,7 +31,7 @@ export default function IntegrationsSection() {
 
         <div className={styles.imageCol}>
             <Image 
-              src="/assets/integrations-illustration.png" 
+              src="/assets/integrations.png" 
               alt="Integrations Illustration" 
               width={400} 
               height={400} 

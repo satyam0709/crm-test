@@ -183,3 +183,9 @@ input, textarea, select { font-family: inherit; }
   mix-blend-mode: screen;
   filter: invert(1) hue-rotate(180deg) brightness(1.2);
 }
+
+*:focus-visible {
+  outline: 3px solid #F5C400;
+  outline-offset: 2px;
+  border-radius: 4px;
+}

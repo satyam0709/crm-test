@@ -1,0 +1,1 @@
+﻿export default function Page() { return (\n  <main style={ {padding: '2rem'} } >\n    <h1>Coming soon</h1>\n    <p>This section is under construction and now includes default placeholder content so the app builds.</p>\n    <p>Path: C:\rnd-crm\frontend\src\app\features\greetings\page.js</p>\n  </main>\n); }

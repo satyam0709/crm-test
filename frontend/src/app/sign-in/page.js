@@ -1,9 +1,5 @@
 import { SignIn } from "@clerk/nextjs";
 
-export const metadata = {
-  title: "Sign In – RND TECHNOSOFT CRM",
-  description: "Sign in to your RND TECHNOSOFT CRM account.",
-};
 
 export default function SignInPage() {
   return (

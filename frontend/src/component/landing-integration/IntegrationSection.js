@@ -23,7 +23,7 @@ export default function IntegrationsSection() {
             <Link href="/get-started" className={styles.btnPrimary}>
               Get Started
             </Link>
-            <Link href="/connect-us" className={styles.btnOutline}>
+            <Link href="/contact-us" className={styles.btnOutline}>
               Connect with Us
             </Link>
           </div>

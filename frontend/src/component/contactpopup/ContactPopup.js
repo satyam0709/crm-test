@@ -1,34 +1,53 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 import styles from "./contactpopup.module.css";
 
 export default function ContactPopup() {
   const { isSignedIn, isLoaded } = useAuth();
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", email: "", message: "" });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const intervalRef = useRef(null);
+  const initialTimerRef = useRef(null);
+
+  const showPopup = () => setVisible(true);
+
+  const startInterval = () => {
+    clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      setVisible(true);
+    }, 2 * 60 * 1000);
+  };
 
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || isSignedIn) return;
 
-    // Don't show if already submitted this session
-    const dismissed = sessionStorage.getItem("popup_dismissed");
-    if (dismissed) return;
+    // Clear any existing timers when route changes
+    clearTimeout(initialTimerRef.current);
+    clearInterval(intervalRef.current);
+    setVisible(false);
 
-    // Show after 3 seconds if not logged in
-    if (!isSignedIn) {
-      const timer = setTimeout(() => setVisible(true), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [isLoaded, isSignedIn]);
+    // Show 3 seconds after landing on the page
+    initialTimerRef.current = setTimeout(() => {
+      showPopup();
+      startInterval();
+    }, 3000);
+
+    return () => {
+      clearTimeout(initialTimerRef.current);
+      clearInterval(intervalRef.current);
+    };
+  }, [pathname, isLoaded, isSignedIn]);
 
   const close = () => {
     setVisible(false);
-    sessionStorage.setItem("popup_dismissed", "true");
+    // Interval keeps running, so it re-opens in 2 minutes automatically
   };
 
   const validate = () => {
@@ -66,10 +85,9 @@ export default function ContactPopup() {
       if (data.success) {
         setSuccess(true);
         setForm({ name: "", phone: "", email: "", message: "" });
-        setTimeout(() => {
-          setVisible(false);
-          sessionStorage.setItem("popup_dismissed", "true");
-        }, 2500);
+        // After successful submit, stop showing it
+        clearInterval(intervalRef.current);
+        setTimeout(() => setVisible(false), 2500);
       } else {
         setErrors({ submit: data.message || "Something went wrong." });
       }

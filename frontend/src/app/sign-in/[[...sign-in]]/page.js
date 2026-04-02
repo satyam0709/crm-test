@@ -4,7 +4,7 @@ export default function SignInPage() {
   return (
     <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", background: "#f9fafb" }}>
       <SignIn
-        forceRedirectUrl="/dashboard"
+        forceRedirectUrl="/add-package"
         signUpUrl="/register"
       />
     </main>

@@ -16,29 +16,29 @@
   top: 4px;
   background: none;
   border: none;
-  color: #3b3b8f;
+  color: var(--yellow-hover);
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
-[data-theme="dark"] .backLink { color: var(--yellow); }
+.backLink:hover { color: var(--yellow); }
 
 .title {
   font-family: var(--font-display);
   font-size: 28px;
   font-weight: 900;
-  color: #3b3b8f;
+  color: var(--text-main);
   margin: 0 0 8px;
 }
-
-[data-theme="dark"] .title { color: var(--yellow); }
 
 .subtitle {
   font-size: 14px;
   color: var(--text-muted);
   margin: 0;
+  font-family: var(--font-body);
 }
 
 .layout {
@@ -51,7 +51,7 @@
 .itemsPanel {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   min-height: 300px;
   overflow: hidden;
 }
@@ -77,8 +77,10 @@
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
   gap: 16px;
+  transition: background 0.15s ease;
 }
 
+.cartItem:hover { background: var(--bg-hover); }
 .cartItem:last-child { border-bottom: none; }
 
 .itemLeft {
@@ -101,6 +103,7 @@
   font-size: 12px;
   color: var(--text-muted);
   margin: 0;
+  font-family: var(--font-body);
 }
 
 .itemRight {
@@ -120,7 +123,7 @@
 .removeBtn {
   background: none;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   width: 28px;
   height: 28px;
   cursor: pointer;
@@ -133,15 +136,15 @@
 }
 
 .removeBtn:hover {
-  background: #fee2e2;
-  border-color: #e53e3e;
-  color: #e53e3e;
+  background: var(--yellow-tint);
+  border-color: var(--yellow);
+  color: var(--yellow-hover);
 }
 
 .summaryPanel {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--radius-lg);
   padding: 24px;
   position: sticky;
   top: 120px;
@@ -179,19 +182,24 @@
 
 .errorText {
   font-size: 13px;
-  color: #e53e3e;
+  color: var(--yellow-hover);
   font-family: var(--font-display);
+  font-weight: 600;
   margin: 12px 0 0;
+  background: var(--yellow-tint);
+  border: 1px solid var(--yellow);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
 }
 
 .payBtn {
   width: 100%;
   margin-top: 20px;
   padding: 14px;
-  background: #3b3b8f;
-  color: #fff;
+  background: var(--yellow);
+  color: var(--bg-deep);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 800;
@@ -200,8 +208,9 @@
 }
 
 .payBtn:hover:not(:disabled) {
-  background: #2d2d6f;
+  background: var(--yellow-hover);
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(245, 196, 0, 0.35);
 }
 
 .payBtn:disabled {
@@ -232,23 +241,32 @@
   color: var(--text-muted);
   font-size: 15px;
   margin: 0;
+  font-family: var(--font-body);
 }
 
 .backBtn {
   margin-top: 8px;
   padding: 12px 24px;
-  background: #3b3b8f;
-  color: #fff;
+  background: var(--yellow);
+  color: var(--bg-deep);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-display);
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
+  transition: background 0.15s ease;
 }
+
+.backBtn:hover { background: var(--yellow-hover); }
 
 @media (max-width: 768px) {
   .layout { grid-template-columns: 1fr; }
-  .backLink { position: static; margin-bottom: 12px; display: block; text-align: left; }
+  .backLink {
+    position: static;
+    margin-bottom: 12px;
+    display: block;
+    text-align: left;
+  }
   .topBar { text-align: center; }
 }

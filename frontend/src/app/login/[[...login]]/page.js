@@ -36,7 +36,13 @@ export default function LoginPage() {
       </div>
 
       <div className={styles.clerkPanel}>
-        <SignIn path="/login" routing="path" signUpUrl="/register" afterSignInUrl="/dashboard" />
+        <SignIn
+          path="/login"
+          routing="path"
+          signUpUrl="/register"
+          afterSignInUrl="/dashboard"
+          redirectUrl="/dashboard"
+        />
       </div>
     </div>
   );

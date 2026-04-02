@@ -47,7 +47,6 @@ export default function ContactPopup() {
 
   const close = () => {
     setVisible(false);
-    // Interval keeps running, so it re-opens in 2 minutes automatically
   };
 
   const validate = () => {
@@ -85,7 +84,6 @@ export default function ContactPopup() {
       if (data.success) {
         setSuccess(true);
         setForm({ name: "", phone: "", email: "", message: "" });
-        // After successful submit, stop showing it
         clearInterval(intervalRef.current);
         setTimeout(() => setVisible(false), 2500);
       } else {

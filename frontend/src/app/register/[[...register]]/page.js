@@ -9,7 +9,13 @@ export default function RegisterPage() {
   return (
     <div className={styles.page}>
       <div className={styles.clerkPanel}>
-        <SignUp path="/register" routing="path" signInUrl="/login" afterSignUpUrl="/dashboard" />
+        <SignUp
+          path="/register"
+          routing="path"
+          signInUrl="/login"
+          afterSignUpUrl="/dashboard"
+          redirectUrl="/dashboard"
+        />
       </div>
 
       <div className={styles.panel}>

@@ -1,10 +1,10 @@
 "use client";
+import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 import CallbackForm from "@/component/callbackform/CallbackForm";
 
-// DATA FOR PAGE 1
 const POSTS_PAGE_1 = [
   {
     slug: "manage-employees-smartly-365-crm-features",
@@ -32,10 +32,9 @@ const POSTS_PAGE_1 = [
     author: "By 365 RND CRM",
     comments: 0,
     image: "/assets/logo.png",
-  }
+  },
 ];
 
-// DATA FOR PAGE 2 (Added from your request)
 const POSTS_PAGE_2 = [
   {
     slug: "are-you-losing-leads-365-crm-helps-you-convert-faster",
@@ -49,7 +48,7 @@ const POSTS_PAGE_2 = [
   {
     slug: "smarter-hiring-made-easy-upgraded-365-crm-module",
     title: "Smarter Hiring Made Easy with the Upgraded 365 RND CRM Module",
-    excerpt: "Hiring becomes stressful when information is scattered across spreadsheets. The upgraded 365 RND CRM Hiring Module is designed to eliminate these challenges...",
+    excerpt: "Hiring becomes stressful when information is scattered across spreadsheets...",
     date: "20 Jan, 2026",
     author: "By 365 RND CRM",
     comments: 0,
@@ -58,12 +57,12 @@ const POSTS_PAGE_2 = [
   {
     slug: "reduce-daily-workload-half-365-crm-workflow-tools",
     title: "Reduce Daily Workload in Half with 365 RND CRM Workflow Tools",
-    excerpt: "Every sales-focused business handles leads, follow-ups, meetings, and daily tasks. When this work is done manually, things quickly become confusing...",
+    excerpt: "Every sales-focused business handles leads, follow-ups, meetings, and daily tasks...",
     date: "10 Jan, 2026",
     author: "By 365 RND CRM",
     comments: 0,
     image: "/assets/logo.png",
-  }
+  },
 ];
 
 const RECENT_POSTS = [
@@ -71,64 +70,68 @@ const RECENT_POSTS = [
   { title: "Why Businesses Prefer CRM...", date: "28 Mar, 2026", image: "/assets/logo.png", slug: "why-businesses-prefer-crm-live-chat" },
 ];
 
-export default function BlogPage() {
+function BlogContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
-  // PAGINATION LOGIC: Determine which page data to show
+
   const currentPage = parseInt(searchParams.get("page")) || 1;
   const postsToShow = currentPage === 2 ? POSTS_PAGE_2 : POSTS_PAGE_1;
 
   const handlePageChange = (pageNum) => {
-    // This updates the URL to /blog?page=X
     router.push(`/blog?page=${pageNum}`, { scroll: true });
   };
 
+  return (
+    <div className={styles.postList}>
+      {postsToShow.map((post) => (
+        <article key={post.slug} className={styles.card}>
+          <div className={styles.cardImg}>
+            <img src={post.image} alt={post.title} className={`${styles.cardImgEl} logo-blend`} />
+          </div>
+          <div className={styles.cardBody}>
+            <h2 className={styles.cardTitle}>{post.title}</h2>
+            <p className={styles.cardExcerpt}>{post.excerpt}</p>
+            <div className={styles.cardMeta}>
+              <span className={styles.metaItem}><i className="far fa-calendar-alt" /> {post.date}</span>
+              <span className={styles.metaDivider}>|</span>
+              <span className={styles.metaItem}><i className="far fa-user" /> {post.author}</span>
+              <span className={styles.metaDivider}>|</span>
+              <span className={styles.metaItem}><i className="far fa-comment-dots" /> {post.comments} Comment</span>
+            </div>
+          </div>
+        </article>
+      ))}
+
+      <div className={styles.pagination}>
+        {[1, 2].map((p) => (
+          <button
+            key={p}
+            onClick={() => handlePageChange(p)}
+            className={`${styles.pageBtn} ${currentPage === p ? styles.pageBtnActive : ""}`}
+          >
+            {p}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function BlogPage() {
   return (
     <>
       <section className={styles.hero}>
         <h1 className={styles.heroTitle}>Blog</h1>
         <p className={styles.heroSubtitle}>
-           Explore our blog for the latest updates, expert tips, and valuable business insights to help you stay ahead.
+          Explore our blog for the latest updates, expert tips, and valuable business insights to help you stay ahead.
         </p>
       </section>
 
       <section className={styles.body}>
         <div className={styles.inner}>
-          <div className={styles.postList}>
-            {postsToShow.map((post) => (
-              <article key={post.slug} className={styles.card}>
-                <div className={styles.cardImg}>
-                  {/* Added 'logo-blend' class for transparency */}
-                  <img src={post.image} alt={post.title} className={`${styles.cardImgEl} logo-blend`} />
-                </div>
-                <div className={styles.cardBody}>
-                  <h2 className={styles.cardTitle}>{post.title}</h2>
-                  <p className={styles.cardExcerpt}>{post.excerpt}</p>
-                  <div className={styles.cardMeta}>
-                    <span className={styles.metaItem}><i className="far fa-calendar-alt" /> {post.date}</span>
-                    <span className={styles.metaDivider}>|</span>
-                    <span className={styles.metaItem}><i className="far fa-user" /> {post.author}</span>
-                    <span className={styles.metaDivider}>|</span>
-                    <span className={styles.metaItem}><i className="far fa-comment-dots" /> {post.comments} Comment</span>
-                  </div>
-                </div>
-              </article>
-            ))}
-
-            {/* PAGINATION BUTTONS */}
-            <div className={styles.pagination}>
-              {[1, 2].map((p) => (
-                <button
-                  key={p}
-                  onClick={() => handlePageChange(p)}
-                  className={`${styles.pageBtn} ${currentPage === p ? styles.pageBtnActive : ""}`}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
-          </div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <BlogContent />
+          </Suspense>
 
           <aside className={styles.sidebar}>
             <div className={styles.sideWidget}>

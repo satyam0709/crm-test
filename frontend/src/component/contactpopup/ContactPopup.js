@@ -22,7 +22,7 @@ export default function ContactPopup() {
     clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
       setVisible(true);
-    }, 2 * 60 * 1000);
+    }, 5 * 60 * 1000);
   };
 
   useEffect(() => {

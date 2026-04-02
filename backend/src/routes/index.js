@@ -29,6 +29,7 @@ router.use("/tasks", tasksRouter);
 router.use("/dashboard", dashboardRouter);
 router.use("/integrations", integrationsRouter);
 
+router.post("/contact", submitContact);
 router.get("/contact", requireAuth(), clerkVerify, getContacts);
 router.patch("/contact/:id/read", requireAuth(), clerkVerify, markAsRead);
 

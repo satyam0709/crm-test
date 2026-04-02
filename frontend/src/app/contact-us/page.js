@@ -64,14 +64,14 @@ export default function ContactPage() {
               <div className={styles.infoIcon}><i className="fas fa-phone-alt" /></div>
               <div>
                 <p className={styles.infoLabel}>Phone</p>
-                <p className={styles.infoVal}>+91 9913299890<br />+91 9913299865</p>
+                <p className={styles.infoVal}>+91 0000000000<br />+91 0000000000</p>
               </div>
             </div>
             <div className={styles.infoItem}>
               <div className={styles.infoIcon}><i className="fas fa-envelope" /></div>
               <div>
                 <p className={styles.infoLabel}>Email</p>
-                <p className={styles.infoVal}>contact@365leadmanagement.com<br />support@365leadmanagement.com</p>
+                <p className={styles.infoVal}>contact@365RNDleadmanagement.com<br />support@365leadmanagement.com</p>
               </div>
             </div>
           </div>

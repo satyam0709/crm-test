@@ -246,7 +246,6 @@ export default function AddPackagePage() {
                       openPlanModal(pkg);
                     } else {
                       setSelectedPlan({ ...pkg, currency });
-                      setExpandedPlan(pkg.id);
                     }
                   }}
                 >
@@ -256,7 +255,10 @@ export default function AddPackagePage() {
                 {/* Only one plan expands at a time */}
                 <div 
                   className={styles.expandTrigger} 
-                  onClick={() => setExpandedPlan(isExpanded ? null : pkg.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandedPlan((prev) => (prev === pkg.id ? null : pkg.id));
+                  }}
                 >
                    <div className={`${styles.expandIcon} ${isExpanded ? styles.rotated : ""}`}>
                     ⌄

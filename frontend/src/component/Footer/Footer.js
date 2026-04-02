@@ -102,16 +102,16 @@ export default function Footer() {
               <span>✉️</span>
               <div>
                 <a
-                  href="mailto:contact@365leadmanagement.com"
+                  href="mailto:contact@365RNDleadmanagement.com"
                   className={styles.contactLink}
                 >
-                  contact@365leadmanagement.com
+                  contact@365RNDleadmanagement.com
                 </a>
                 <a
                   href="mailto:support@365leadmanagement.com"
                   className={styles.contactLink}
                 >
-                  support@365leadmanagement.com
+                  support@365RNDleadmanagement.com
                 </a>
               </div>
             </div>

@@ -18,7 +18,8 @@ export default function LoginPage() {
           Welcome back to your <span>sales command center</span>
         </h1>
         <p className={styles.panelDesc}>
-          Pick up right where you left off. Your leads, tasks, and team are waiting.
+          Pick up right where you left off. Your leads, tasks, and team are
+          waiting.
         </p>
         <ul className={styles.bullets}>
           {[
@@ -36,13 +37,7 @@ export default function LoginPage() {
       </div>
 
       <div className={styles.clerkPanel}>
-        <SignIn
-          path="/login"
-          routing="path"
-          signUpUrl="/register"
-          afterSignInUrl="/dashboard"
-          redirectUrl="/dashboard"
-        />
+        <SignIn forceRedirectUrl="/add-package" signUpUrl="/register" />
       </div>
     </div>
   );

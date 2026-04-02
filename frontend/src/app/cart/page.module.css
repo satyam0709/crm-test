@@ -1,0 +1,254 @@
+.page {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.topBar {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.backLink {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  background: none;
+  border: none;
+  color: #3b3b8f;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .backLink { color: var(--yellow); }
+
+.title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+  color: #3b3b8f;
+  margin: 0 0 8px;
+}
+
+[data-theme="dark"] .title { color: var(--yellow); }
+
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+}
+
+.itemsPanel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  min-height: 300px;
+  overflow: hidden;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 15px;
+  gap: 12px;
+}
+
+.emptyIcon { font-size: 48px; }
+
+.cartItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  gap: 16px;
+}
+
+.cartItem:last-child { border-bottom: none; }
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.itemIcon { font-size: 22px; }
+
+.itemName {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 2px;
+}
+
+.itemMeta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.itemRight {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.itemPrice {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.removeBtn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.removeBtn:hover {
+  background: #fee2e2;
+  border-color: #e53e3e;
+  color: #e53e3e;
+}
+
+.summaryPanel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  position: sticky;
+  top: 120px;
+}
+
+.summaryTitle {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 16px;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.totalRow {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin-bottom: 0;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 12px 0;
+}
+
+.errorText {
+  font-size: 13px;
+  color: #e53e3e;
+  font-family: var(--font-display);
+  margin: 12px 0 0;
+}
+
+.payBtn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  background: #3b3b8f;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payBtn:hover:not(:disabled) {
+  background: #2d2d6f;
+  transform: translateY(-1px);
+}
+
+.payBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.successBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 80px 24px;
+  gap: 16px;
+}
+
+.successIcon { font-size: 64px; }
+
+.successBox h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.successBox p {
+  color: var(--text-muted);
+  font-size: 15px;
+  margin: 0;
+}
+
+.backBtn {
+  margin-top: 8px;
+  padding: 12px 24px;
+  background: #3b3b8f;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .backLink { position: static; margin-bottom: 12px; display: block; text-align: left; }
+  .topBar { text-align: center; }
+}

@@ -141,6 +141,25 @@ async function setupDb() {
   `);
   console.log("Table: notes");
 
+  await conn.query(`
+  CREATE TABLE IF NOT EXISTS orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id VARCHAR(255) NOT NULL,
+  package_name VARCHAR(100),
+  package_price DECIMAL(10,2) DEFAULT 0,
+  currency VARCHAR(10) DEFAULT 'INR',
+  addons JSON,
+  subtotal DECIMAL(10,2) DEFAULT 0,
+  gst DECIMAL(10,2) DEFAULT 0,
+  total DECIMAL(10,2) DEFAULT 0,
+  status VARCHAR(50) DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);`);
+
+console.log("Table: orders");
+
+
+
   console.log(" All tables created. Database is ready!\n");
   await conn.end();
   process.exit(0);

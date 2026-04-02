@@ -9,6 +9,8 @@ const tasksRouter = require("./tasks");
 const usersRouter = require("./users");
 const dashboardRouter = require("./dashboard");
 const integrationsRouter = require("./integrations");
+const { placeOrder, getOrders } = require("../controllers/orderController");
+
 
 const router = express.Router();
 
@@ -32,5 +34,8 @@ router.use("/integrations", integrationsRouter);
 router.post("/contact", submitContact);
 router.get("/contact", requireAuth(), clerkVerify, getContacts);
 router.patch("/contact/:id/read", requireAuth(), clerkVerify, markAsRead);
+
+router.post("/orders", requireAuth(), clerkVerify, placeOrder);
+router.get("/orders", requireAuth(), clerkVerify, getOrders);
 
 module.exports = router;

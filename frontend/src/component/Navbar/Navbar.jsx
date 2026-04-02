@@ -395,9 +395,6 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link href="/dashboard" className={styles.btnDemo}>
-                  Go to CRM
-                </Link>
                 <UserButton afterSignOutUrl="/" />
               </>
             )}
@@ -546,7 +543,7 @@ export default function Navbar() {
                 Schedule Demo
               </Link>
               <Link
-                href="/sign-in"
+                href="/login"
                 className={styles.btnLogin}
                 onClick={() => setMobileOpen(false)}
               >

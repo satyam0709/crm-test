@@ -27,13 +27,14 @@ export default function ContactPopup() {
 
   useEffect(() => {
     if (!isLoaded || isSignedIn) return;
+    if (pathname !== "/") return;
 
     // Clear any existing timers when route changes
     clearTimeout(initialTimerRef.current);
     clearInterval(intervalRef.current);
     setVisible(false);
 
-    // Show 3 seconds after landing on the page
+    // Show 3 seconds after landing on the page and start 5-minute interval for subsequent popups
     initialTimerRef.current = setTimeout(() => {
       showPopup();
       startInterval();
@@ -101,7 +102,6 @@ export default function ContactPopup() {
   return (
     <>
       <div className={styles.overlay} onClick={close} aria-hidden="true" />
-
       <div className={styles.popup} role="dialog" aria-modal="true" aria-label="Contact form">
         <div className={styles.header}>
           <h2 className={styles.title}>

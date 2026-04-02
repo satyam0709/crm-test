@@ -91,10 +91,10 @@ export default function Footer() {
               <span>📞</span>
               <div>
                 <a href="tel:+919913299890" className={styles.contactLink}>
-                  +91 9913299890
+                  +91 0000000000
                 </a>
                 <a href="tel:+919913299865" className={styles.contactLink}>
-                  +91 9913299865
+                  +91 0000000000
                 </a>
               </div>
             </div>

@@ -1,6 +1,7 @@
 "use client";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./page.module.css";
 
@@ -13,8 +14,25 @@ const QUICK_LINKS = [
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
+  const router = useRouter();
   const [dbUser, setDbUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    if (user) {
+      router.replace("/add-package");
+    }
+  }, [isLoaded, user, router]);
+
+  if (!isLoaded || user) {
+    return (
+      <div className={styles.loadingState}>
+        <i className="fas fa-spinner fa-spin" style={{ color: "#F5C400" }} />
+        Redirecting to package setup...
+      </div>
+    );
+  }
 
   useEffect(() => {
     if (!isLoaded || !user) return;

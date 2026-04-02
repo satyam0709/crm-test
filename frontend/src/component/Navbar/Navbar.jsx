@@ -134,6 +134,7 @@ const CALCULATORS = [
 export default function Navbar() {
   const { isSignedIn, isLoaded } = useAuth();
   const pathname = usePathname();
+  const homeHref = isSignedIn ? "/add-package" : "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDrop, setActiveDrop] = useState(null);
@@ -186,7 +187,7 @@ export default function Navbar() {
       >
         <div className={styles.inner}>
           <Link
-            href="/"
+            href={homeHref}
             className={styles.brand}
             aria-label="RND TECHNOSOFT Home"
           >
@@ -426,7 +427,7 @@ export default function Navbar() {
       >
         <div className={styles.drawerHeader}>
           <Link
-            href="/"
+            href={homeHref}
             className={styles.brand}
             onClick={() => setMobileOpen(false)}
           >

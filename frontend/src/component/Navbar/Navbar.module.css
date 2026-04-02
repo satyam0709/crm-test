@@ -72,10 +72,8 @@
 }
 
 .navLogo {
-  /* Logo width; height scales automatically */
   width: 220px; 
   height: auto;
-  /* max-height acts as internal padding so it doesn't hit the edges */
   max-height: 80px; 
   transition: all 0.3s var(--ease);
   display: block;

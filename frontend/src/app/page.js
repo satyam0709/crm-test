@@ -1,6 +1,8 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 import Image from "next/image";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 import ContactForm from "../component/contactform/contactform";
 import FeaturesSection from "../component/featuressection/FeaturesSection";
 import AllInOneCRM from "../component/featureslist/AllInOneCRM";
@@ -58,6 +60,11 @@ const STATS = [
 ];
 
 export default function HomePage() {
+  const { userId } = auth();
+  if (userId) {
+    redirect("/add-package");
+  }
+
   return (
     <>
       <section className={styles.hero}>

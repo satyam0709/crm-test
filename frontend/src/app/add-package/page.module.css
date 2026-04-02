@@ -103,28 +103,35 @@
 
 .planGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
 .planCard {
+  position: relative;
   background: var(--bg-card);
-  border: 2px dashed var(--border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  transition: all 0.2s ease;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  padding: 24px 24px 48px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  min-height: 380px;
 }
 
 .planCard:hover {
   border-color: var(--yellow);
   border-style: solid;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 16px 25px rgba(58, 87, 189, 0.14);
+  transform: translateY(-4px);
 }
 
 .planSelected {
   border-color: var(--yellow);
   border-style: solid;
-  box-shadow: 0 0 0 1px var(--yellow), var(--shadow-md);
+  box-shadow: 0 0 0 1px var(--yellow), 0 12px 24px rgba(245, 196, 0, 0.26);
+  transform: translateY(-2px);
 }
 
 .planTop {
@@ -194,12 +201,7 @@
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.planBtn:hover {
-  border-color: var(--yellow);
-  background: var(--yellow-tint);
-  color: var(--yellow-hover);
+  margin-bottom: 10px;
 }
 
 .planBtnSelected {
@@ -208,11 +210,66 @@
   color: var(--bg-deep);
 }
 
-.planBtnSelected:hover {
-  background: var(--yellow-hover);
-  border-color: var(--yellow-hover);
-  color: var(--bg-deep);
+/* Updated Trigger Styling */
+.expandTrigger {
+  position: absolute; 
+  bottom: -19px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  width: 38px;
+  height: 38px;
+  background: var(--bg-deep);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 3px solid var(--bg-card);
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
+
+.expandIcon {
+  color: var(--yellow);
+  font-size: 20px;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  line-height: 1;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.featureList {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.featureList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.featureList::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.featCheck { color: #2ecc71; font-weight: bold; }
+.featCross { color: #e74c3c; font-weight: bold; }
 
 .addonGrid {
   display: grid;
@@ -230,12 +287,6 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-.addonCard:hover {
-  border-color: var(--yellow);
-  border-style: solid;
-  box-shadow: var(--shadow-sm);
 }
 
 .addonInCart {
@@ -256,21 +307,12 @@
   font-size: 18px;
 }
 
-.addonInfo { flex: 1; }
-
 .addonName {
   font-family: var(--font-display);
   font-size: 14px;
   font-weight: 700;
   color: var(--text-main);
   margin: 0 0 2px;
-}
-
-.addonDesc {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0 0 6px;
-  font-family: var(--font-body);
 }
 
 .addonPrice {
@@ -292,19 +334,121 @@
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.15s ease;
   pointer-events: none;
 }
 
-.addonInCart .addonBtn {
-  border-color: var(--yellow-hover);
-  color: var(--yellow-hover);
-  background: var(--yellow-tint);
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 300;
+  padding: 16px;
 }
 
-.addonBtnRemove {
-  border-color: var(--yellow-hover);
-  color: var(--yellow-hover);
+.modalContent {
+  width: min(900px, 100%);
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+  max-height: calc(100vh - 80px);
+  overflow: auto;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.modalClose {
+  border: none;
+  background: #f3f4f6;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.modalDesc {
+  font-size: 14px;
+  margin-bottom: 14px;
+  color: var(--text-muted);
+}
+
+.modalPlanInfo {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.modalSectionTitle {
+  margin-top: 14px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.modalFeatureList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.modalAddonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.modalAddonCard {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.addonMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.primaryBtn {
+  border: none;
+  color: #fff;
+  background: #3730a3;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondaryBtn {
+  border: 1px solid #9ca3af;
+  color: #374151;
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .floatingCart {
@@ -337,23 +481,11 @@
   font-size: 13px;
   font-weight: 800;
   cursor: pointer;
-  transition: background 0.15s ease;
 }
 
-.floatingCart button:hover {
-  background: var(--yellow-hover);
-}
-
-@media (max-width: 1024px) {
-  .addonGrid { grid-template-columns: repeat(3, 1fr); }
-}
-
+@media (max-width: 1024px) { .addonGrid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 768px) {
   .planGrid { grid-template-columns: 1fr; }
   .addonGrid { grid-template-columns: repeat(2, 1fr); }
 }
-
-@media (max-width: 480px) {
-  .addonGrid { grid-template-columns: 1fr; }
-  .title { font-size: 18px; }
-}
+@media (max-width: 480px) { .addonGrid { grid-template-columns: 1fr; } }

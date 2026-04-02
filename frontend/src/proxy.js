@@ -1,4 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -16,10 +17,14 @@ const isPublicRoute = createRouteMatcher([
   "/testimonials(.*)",
   "/explore-now(.*)",
   "/faqs(.*)",
-  
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
+  // Force signed-in users away from public landing page
+  if (req.nextUrl.pathname === "/" && auth.userId) {
+    return NextResponse.redirect(new URL("/add-package", req.url));
+  }
+
   if (!isPublicRoute(req)) {
     await auth.protect();
   }

@@ -123,8 +123,9 @@ const ADDONS = {
 const SYMBOL = { INR: "₹", USD: "$" };
 
 export default function AddPackagePage() {
-  const { isSignedIn, isLoaded } = useAuth();
+  const { isSignedIn, isLoaded, getToken } = useAuth();
   const router = useRouter();
+  const [checkingSubscription, setCheckingSubscription] = useState(true);
 
   const [currency, setCurrency] = useState("INR");
   const [selectedPlan, setSelectedPlan] = useState(null);
@@ -137,8 +138,37 @@ export default function AddPackagePage() {
 
   useEffect(() => {
     if (!isLoaded) return;
-    if (!isSignedIn) router.replace("/login");
-  }, [isLoaded, isSignedIn, router]);
+
+    if (!isSignedIn) {
+      router.replace("/login");
+      return;
+    }
+
+    const checkSubscription = async () => {
+      try {
+        const token = await getToken();
+        if (!token) return;
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        const hasSubscription = data.success && Array.isArray(data.orders) && data.orders.length > 0;
+        if (hasSubscription) {
+          router.replace("/dashboard");
+        }
+      } catch (err) {
+        console.error("Failed to verify subscription", err);
+      } finally {
+        setCheckingSubscription(false);
+      }
+    };
+
+    checkSubscription();
+  }, [isLoaded, isSignedIn, getToken, router]);
 
   useEffect(() => {
     const saved = localStorage.getItem("rnd_cart");
@@ -186,8 +216,12 @@ export default function AddPackagePage() {
     localStorage.setItem("rnd_cart", JSON.stringify({ plan: selectedPlan, addons: cartAddons, currency }));
   }, [selectedPlan, cartAddons, currency]);
 
-  if (!isLoaded || !isSignedIn) {
-    return <div className={styles.page}><p className={styles.loading}>Loading...</p></div>;
+  if (!isLoaded || !isSignedIn || checkingSubscription) {
+    return (
+      <div className={styles.page}>
+        <p className={styles.loading}>Loading...</p>
+      </div>
+    );
   }
 
   const toggleAddon = (addon) => {
@@ -318,18 +352,23 @@ export default function AddPackagePage() {
               {addons.map((addon) => {
                 const selected = modalAddons.some((a) => a.id === addon.id);
                 return (
-                  <div key={addon.id} className={`${styles.modalAddonCard} ${selected ? styles.addonInCart : ""}`} onClick={() => toggleModalAddon(addon)}>
-                    <div>
-                      <p className={styles.addonName}>{addon.name}</p>
-                      <p className={styles.addonDesc}>{addon.desc}</p>
-                    </div>
-                    <div className={styles.addonMeta}>
-                      <span className={styles.addonPrice}>{sym}{addon.price}</span>
-                      <button className={`${styles.addonBtn} ${selected ? styles.addonBtnRemove : ""}`}>
-                        {selected ? "Selected" : "Select"}
-                      </button>
-                    </div>
-                  </div>
+                  <div 
+  key={addon.id} 
+  className={`${styles.modalAddonCard} ${selected ? styles.addonInCart : ""}`} 
+  onClick={() => toggleModalAddon(addon)}
+>
+  <div className={styles.addonInfo}>
+    <p className={styles.addonName}>{addon.name}</p>
+    <p className={styles.addonDesc}>{addon.desc}</p>
+  </div>
+
+  <div className={styles.addonMeta}>
+    <span className={styles.addonPrice}>{sym}{addon.price}</span>
+    <button className={`${styles.addonBtn} ${selected ? styles.addonBtnRemove : ""}`}>
+      {selected ? "Selected" : "Select"}
+    </button>
+  </div>
+</div>
                 );
               })}
             </div>

@@ -3,15 +3,15 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import ContactForm from "../component/contactform/contactform";
-import FeaturesSection from "../component/featuressection/FeaturesSection";
-import AllInOneCRM from "../component/featureslist/AllInOneCRM";
-import IntersectionObserver from "../component/landing-integration/IntegrationSection";
-import MobileAppSection from "../component/mobileappsection/MobileAppSection";
-import WhyChooseSection from "../component/WhyChooseUs/WhyChooseUs";
-import FAQSection from "../component/FAQ/FAQSection";
-import Blog from "@/component/our-blog/blog";
-import HappyCustomers from "@/component/HappyCustomers/HappyCustomers";
+import ContactForm from "../components/contactform/contactform";
+import FeaturesSection from "../components/featuressection/FeaturesSection";
+import AllInOneCRM from "../components/featureslist/AllInOneCRM";
+import IntersectionObserver from "../components/landing-integration/IntegrationSection";
+import MobileAppSection from "../components/mobileappsection/MobileAppSection";
+import WhyChooseSection from "../components/WhyChooseUs/WhyChooseUs";
+import FAQSection from "../components/FAQ/FAQSection";
+import Blog from "@/components/our-blog/blog";
+import HappyCustomers from "@/components/HappyCustomers/HappyCustomers";
 
 export const metadata = {
   title: "RND TECHNOSOFT CRM – Smart CRM for Closing More Deals",

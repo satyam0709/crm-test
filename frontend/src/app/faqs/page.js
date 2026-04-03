@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FAQSection from "../../component/FAQ/FAQSection";
+import FAQSection from "../../components/FAQ/FAQSection";
 
 export default function FAQPage() {
   return (

@@ -1,9 +1,9 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import Navbar from "@/component/Navbar/Navbar";
-import Footer from "@/component/Footer/Footer";
+import Navbar from "@/components/Navbar/Navbar";
+import Footer from "@/components/Footer/Footer";
 import Providers from "./providers";
 import "./globals.css";
-import ContactPopup from "@/component/contactpopup/ContactPopup";
+import ContactPopup from "@/components/contactpopup/ContactPopup";
 
 export default function RootLayout({ children }) {
   return (

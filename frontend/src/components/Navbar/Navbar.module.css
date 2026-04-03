@@ -47,11 +47,11 @@
 }
 
 /* State when the user scrolls down */
-.scrolled {
+/* .scrolled {
   height: 75px; 
   border-bottom-color: var(--yellow);
   box-shadow: var(--shadow-md);
-}
+} */
 
 .inner {
   max-width: 1300px;
@@ -78,11 +78,11 @@
   transition: all 0.3s var(--ease);
   display: block;
 }
-
+/* 
 .scrolled .navLogo {
   width: 160px;
   max-height: 55px;
-}
+} */
 
 /* Ensure Desktop Nav stays centered or right-aligned */
 .desktopNav {
@@ -579,6 +579,6 @@
   transition: width 0.3s ease;
 }
 
-.scrolled .navLogo {
+/* .scrolled .navLogo {
   width: 110px;
-}
+} */

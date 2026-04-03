@@ -1,491 +1,459 @@
+/* Layout & Typography */
 .page {
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 32px 24px 80px;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+    font-family: var(--font-body);
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-  gap: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .title {
-  font-family: var(--font-display);
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--text-main);
-  margin: 0;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0;
 }
 
+/* Components */
 .controls {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .currencyToggle {
-  display: flex;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
+    display: flex;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
 }
 
 .currBtn {
-  padding: 8px 20px;
-  border: none;
-  background: none;
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-muted);
-  cursor: pointer;
-  transition: all 0.15s ease;
+    padding: 8px 20px;
+    border: none;
+    background: none;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
 }
 
 .currActive {
-  background: var(--bg-deep);
-  color: var(--yellow);
+    background: var(--bg-deep);
+    color: var(--yellow);
 }
 
 .cartBtn {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  width: 44px;
-  height: 44px;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-  color: var(--text-main);
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .cartBtn:hover {
-  border-color: var(--yellow);
-  background: var(--yellow-tint);
+    border-color: var(--yellow);
+    background: var(--yellow-tint);
 }
 
 .cartBadge {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: var(--yellow);
-  color: var(--bg-deep);
-  font-size: 10px;
-  font-weight: 800;
-  font-family: var(--font-display);
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--yellow);
+    color: var(--bg-deep);
+    font-size: 10px;
+    font-weight: 800;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.section { margin-bottom: 56px; }
-
-.sectionTitle {
-  text-align: center;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text-main);
-  margin-bottom: 28px;
-}
-
+/* Plan Cards Grid */
 .planGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    align-items: flex-start;
+    margin : 0px 20px  80px;
 }
 
 .planCard {
-  position: relative;
-  background: var(--bg-card);
-  border: 1px solid #e5e7eb;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-  padding: 24px 24px 48px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  min-height: 380px;
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid #e5e7eb;
+    border-radius: 20px;
+    padding: 24px 24px 48px;
+    transition: 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
 }
 
-.planCard:hover {
-  border-color: var(--yellow);
-  border-style: solid;
-  box-shadow: 0 16px 25px rgba(58, 87, 189, 0.14);
-  transform: translateY(-4px);
-}
 
-.planSelected {
-  border-color: var(--yellow);
-  border-style: solid;
-  box-shadow: 0 0 0 1px var(--yellow), 0 12px 24px rgba(245, 196, 0, 0.26);
-  transform: translateY(-2px);
-}
-
-.planTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.planName {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text-main);
-}
-
-.trialBadge {
-  background: var(--yellow-tint);
-  border: 1px solid var(--yellow);
-  border-radius: 20px;
-  padding: 3px 10px;
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--yellow-hover);
-}
-
-.planPrice { margin-bottom: 4px; }
-
-.priceAmount {
-  font-family: var(--font-display);
-  font-size: 32px;
-  font-weight: 900;
-  color: var(--text-main);
-}
-
-.pricePer {
-  font-family: var(--font-display);
-  font-size: 14px;
-  color: var(--text-muted);
-}
-
-.planTax {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0 0 16px;
-  font-family: var(--font-body);
-}
-
-.planStaff {
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-main);
-  margin: 0 0 20px;
-}
-
-.planBtn {
-  width: 100%;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  border: 2px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  margin-bottom: 10px;
-}
-
-.planBtnSelected {
-  background: var(--yellow);
-  border-color: var(--yellow);
-  color: var(--bg-deep);
-}
-
-/* Updated Trigger Styling */
-.expandTrigger {
-  position: absolute; 
-  bottom: -19px; 
-  left: 50%; 
-  transform: translateX(-50%);
-  width: 38px;
-  height: 38px;
-  background: var(--bg-deep);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 3px solid var(--bg-card);
-  z-index: 10;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.expandIcon {
-  color: var(--yellow);
-  font-size: 20px;
-  font-weight: bold;
-  transition: transform 0.3s ease;
-  line-height: 1;
-}
-
-.rotated {
-  transform: rotate(180deg);
-}
-
-.featureList {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border-top: 1px solid var(--border);
-  padding-top: 20px;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.featureList::-webkit-scrollbar {
-  width: 4px;
-}
-
-.featureList::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 10px;
-}
-
-.featureItem {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
-}
-
-.featCheck { color: #2ecc71; font-weight: bold; }
-.featCross { color: #e74c3c; font-weight: bold; }
-
-.addonGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+.planPrice {
+    background: linear-gradient(135deg, rgba(245,196,0,0.08), rgba(245,196,0,0.02));
+    border: 1px solid var(--border);
+    padding: 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
 }
 
 .addonCard {
-  background: var(--bg-card);
-  border: 2px dashed var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--bg-card);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    transition: 0.2s;
+    min-height: 150px;
 }
 
-.addonInCart {
-  border-color: var(--yellow);
-  border-style: solid;
-  background: var(--yellow-tint);
+.addonCard:hover {
+    border-color: var(--yellow);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
 }
 
-.addonIcon {
-  width: 44px;
-  height: 44px;
-  background: var(--yellow);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--bg-deep);
-  font-size: 18px;
-}
-
-.addonName {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-main);
-  margin: 0 0 2px;
-}
-
-.addonPrice {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--text-main);
-  margin: 0;
-}
-
-.addonBtn {
-  width: 100%;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--yellow);
-  background: transparent;
-  color: var(--yellow-hover);
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  pointer-events: none;
-}
-
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 300;
-  padding: 16px;
-}
-
-.modalContent {
-  width: min(900px, 100%);
-  background: #fff;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 20px 45px rgba(0,0,0,0.2);
-  max-height: calc(100vh - 80px);
-  overflow: auto;
-  border: 1px solid rgba(99, 102, 241, 0.2);
-}
-
-.modalHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.modalClose {
-  border: none;
-  background: #f3f4f6;
-  width: 30px;
-  height: 30px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.modalDesc {
-  font-size: 14px;
-  margin-bottom: 14px;
-  color: var(--text-muted);
-}
-
-.modalPlanInfo {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 16px;
-}
-
-.modalSectionTitle {
-  margin-top: 14px;
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-main);
-}
-
-.modalFeatureList {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.modalAddonGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.modalAddonCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
+.addonInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .addonMeta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.addonBtn {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: var(--bg-hover);
+    cursor: pointer;
+}
+
+.addonBtnRemove {
+    background: var(--yellow);
+    color: var(--bg-deep);
+    border-color: var(--yellow);
+}
+
+.modalAddonCard {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--bg-card);
+    transition: 0.2s;
+}
+
+.modalAddonCard:hover {
+    border-color: var(--yellow);
+    box-shadow: var(--shadow-md);
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.modalClose {
+    background: var(--bg-hover);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .primaryBtn {
-  border: none;
-  color: #fff;
-  background: #3730a3;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
+    background: var(--yellow);
+    color: var(--bg-deep);
+    border: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
 }
 
 .secondaryBtn {
-  border: 1px solid #9ca3af;
-  color: #374151;
-  background: #fff;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+}
+
+.modalAddonGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.planCard:hover {
+    border-color: var(--yellow);
+    box-shadow: 0 16px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+}
+
+.planSelected {
+    border-color: var(--yellow);
+    box-shadow: 0 0 0 1px var(--yellow), 0 12px 24px rgba(245, 196, 0, 0.15);
+}
+
+/* Card Details */
+.planTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.planName {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.trialBadge {
+    background: var(--yellow-tint);
+    border: 1px solid var(--yellow);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--yellow-hover);
+}
+
+.priceAmount {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--text-main);
+}
+
+.pricePer,
+.planTax {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.planStaff {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+/* Buttons & Triggers */
+.planBtn {
+    width: 100%;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--border);
+    background: transparent;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+    
+}
+
+.planBtnSelected {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--bg-deep);
+}
+
+.expandTrigger {
+    position: absolute;
+    bottom: -19px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 38px;
+    height: 38px;
+    background: var(--bg-deep);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 3px solid var(--bg-card);
+    z-index: 10;
+}
+
+.expandIcon {
+    color: var(--yellow);
+    font-size: 20px;
+    transition: 0.3s;
+}
+
+.rotated {
+    transform: rotate(180deg);
+}
+
+/* Features & Addons */
+.featureList {
+    margin-top: 24px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.featureItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+}
+
+.featCheck {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
+.featCross {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.addonGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.addonCard {
+    background: var(--bg-card);
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.addonInCart {
+    border-color: var(--yellow);
+    border-style: solid;
+    background: var(--yellow-tint);
+}
+
+/* Modal & Floating Cart */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 16px;
+}
+
+.modalContent {
+    width: min(900px, 100%);
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    max-height: calc(100vh - 80px);
+    overflow: auto;
+}
+
+.modalAddonGrid,
+.modalFeatureList {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
 }
 
 .floatingCart {
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--bg-deep);
-  color: var(--yellow);
-  border-radius: 40px;
-  padding: 14px 28px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  box-shadow: var(--shadow-lg);
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 100;
-  border: 1px solid var(--yellow);
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-deep);
+    color: var(--yellow);
+    border-radius: 40px;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+    border: 1px solid var(--yellow);
 }
 
 .floatingCart button {
-  background: var(--yellow);
-  color: var(--bg-deep);
-  border: none;
-  border-radius: 20px;
-  padding: 8px 18px;
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 800;
-  cursor: pointer;
+    background: var(--yellow);
+    color: var(--bg-deep);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-weight: 800;
+    cursor: pointer;
 }
 
-@media (max-width: 1024px) { .addonGrid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 768px) {
-  .planGrid { grid-template-columns: 1fr; }
-  .addonGrid { grid-template-columns: repeat(2, 1fr); }
+/* Responsive */
+@media (max-width: 1024px) {
+    .addonGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
-@media (max-width: 480px) { .addonGrid { grid-template-columns: 1fr; } }
+
+@media (max-width: 768px) {
+
+    .planGrid,
+    .modalAddonGrid,
+    .modalFeatureList {
+        grid-template-columns: 1fr;
+    }
+
+    .addonGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .addonGrid {
+        grid-template-columns: 1fr;
+    }
+}

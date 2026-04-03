@@ -1,89 +1,78 @@
-const mysql = require("mysql2/promise");
+const { Webhook } = require("svix");
+const { pool } = require("../config/database"); // Ensure path is correct
 require("dotenv").config();
 
-const DB = process.env.DB_NAME || "rnd_crm";
+async function handleClerkWebhook(req, res) {
+  const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
 
-async function seed() {
-  const conn = await mysql.createConnection({
-    host: process.env.DB_HOST || "localhost",
-    port: Number(process.env.DB_PORT) || 3306,
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASS || "",
-    database: DB,
-    multipleStatements: true,
-  });
-
-  console.log("\n🔧 Seeding demo data for crm-rnd...");
-
-  const [existing] = await conn.execute("SELECT id FROM users WHERE clerk_user_id = 'seed-admin' LIMIT 1");
-  let adminId;
-
-  if (existing.length === 0) {
-    const [result] = await conn.execute(
-      `INSERT INTO users (clerk_user_id, email, first_name, last_name, role, is_active)
-       VALUES ('seed-admin', 'admin@crm-rnd.test', 'Seed', 'Admin', 'admin', 1)`
-    );
-    adminId = result.insertId;
-  } else {
-    adminId = existing[0].id;
+  if (!webhookSecret) {
+    console.error("CLERK_WEBHOOK_SECRET is missing from .env");
+    return res.status(500).json({ message: "Webhook secret not configured" });
   }
 
-  const staffUsers = [
-    { clerk_id: "seed-manager", email: "manager@crm-rnd.test", first_name: "Seed", last_name: "Manager", role: "manager" },
-    { clerk_id: "seed-staff", email: "staff@crm-rnd.test", first_name: "Seed", last_name: "Staff", role: "staff" },
-  ];
+  // FIXED: Ensure Svix gets the raw string payload
+  const payload = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+  const headers = {
+    "svix-id": req.headers["svix-id"],
+    "svix-timestamp": req.headers["svix-timestamp"],
+    "svix-signature": req.headers["svix-signature"],
+  };
 
-  for (const user of staffUsers) {
-    await conn.execute(
-      `INSERT INTO users (clerk_user_id, email, first_name, last_name, role, is_active)
-       VALUES (?, ?, ?, ?, ?, 1)
-       ON DUPLICATE KEY UPDATE email = VALUES(email), first_name = VALUES(first_name), last_name = VALUES(last_name), role = VALUES(role), is_active = 1`,
-      [user.clerk_id, user.email, user.first_name, user.last_name, user.role]
-    );
+  const wh = new Webhook(webhookSecret);
+  let event;
+
+  try {
+    event = wh.verify(payload, headers);
+  } catch (err) {
+    console.error("Webhook signature verification failed:", err.message);
+    return res.status(400).json({ message: "Invalid webhook signature" });
   }
 
-  const [managerRow] = await conn.execute("SELECT id FROM users WHERE clerk_user_id = 'seed-manager' LIMIT 1");
-  const [staffRow] = await conn.execute("SELECT id FROM users WHERE clerk_user_id = 'seed-staff' LIMIT 1");
+  const { type, data } = event;
+  console.log(`📩 Clerk webhook received: ${type}`);
 
-  const managerId = managerRow[0]?.id || adminId;
-  const staffId = staffRow[0]?.id || adminId;
+  try {
+    // Combine Create/Update for reliability
+    if (type === "user.created" || type === "user.updated") {
+      const email = data.email_addresses?.[0]?.email_address || "";
+      const firstName = data.first_name || "";
+      const lastName = data.last_name || "";
+      const imageUrl = data.image_url || null;
 
-  const leadValues = [
-    ["Acme Industries", "+911234567890", "contact@acme.test", "indiamart", "new", managerId, adminId, "Initial lead from IndiaMart."],
-    ["Beta Corp", "+919876543210", "lead@beta.test", "online", "processing", staffId, managerId, "Following up after demo."],
-  ];
-  const leadPlaceholders = leadValues.map(() => "(?, ?, ?, ?, ?, ?, ?, ?)").join(",");
-  await conn.execute(
-    `INSERT INTO leads (name, phone, email, source, status, assigned_to, created_by, notes) VALUES ${leadPlaceholders} `,
-    leadValues.flat()
-  );
+      await pool.execute(
+        `INSERT INTO users (clerk_user_id, email, first_name, last_name, profile_image)
+         VALUES (?, ?, ?, ?, ?)
+         ON DUPLICATE KEY UPDATE
+           email = VALUES(email),
+           first_name = VALUES(first_name),
+           last_name = VALUES(last_name),
+           profile_image = VALUES(profile_image),
+           updated_at = NOW()`,
+        [data.id, email, firstName, lastName, imageUrl]
+      );
+      console.log(`User synced: ${email}`);
+    }
 
-  const taskValues = [
-    ["Call Acme for quote", "Confirm pricing and packages", 1, managerId, adminId, new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10), "high", "todo"],
-    ["Send Beta proposal", "Email formal proposal document", 2, staffId, managerId, new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10), "medium", "in_progress"],
-  ];
-  const taskPlaceholders = taskValues.map(() => "(?, ?, ?, ?, ?, ?, ?, ?)").join(",");
-  await conn.execute(
-    `INSERT INTO tasks (title, description, lead_id, assigned_to, created_by, due_date, priority, status) VALUES ${taskPlaceholders}`,
-    taskValues.flat()
-  );
+    if (type === "user.deleted") {
+      await pool.execute(
+        "UPDATE users SET is_active = 0, updated_at = NOW() WHERE clerk_user_id = ?",
+        [data.id]
+      );
+      console.log(`User deactivated: ${data.id}`);
+    }
 
-  const noteValues = [
-    [1, "Initial call done, pricing shared.", managerId],
-    [2, "Lead requested one-week extension for decision.", staffId],
-  ];
-  const notePlaceholders = noteValues.map(() => "(?, ?, ?)").join(",");
-  await conn.execute(
-    `INSERT INTO notes (lead_id, content, created_by) VALUES ${notePlaceholders}`,
-    noteValues.flat()
-  );
+    if (type === "session.created") {
+      await pool.execute(
+        "UPDATE users SET last_login = NOW() WHERE clerk_user_id = ?",
+        [data.user_id]
+      );
+    }
 
-  console.log("✅ Seed data inserted. Admin clerk_user_id=seed-admin, manager=seed-manager, staff=seed-staff");
-  await conn.end();
-  process.exit(0);
+    res.status(200).json({ success: true, received: type });
+  } catch (err) {
+    console.error("Webhook database error:", err.message);
+    res.status(500).json({ success: false, message: "Database error" });
+  }
 }
 
-seed().catch((err) => {
-  console.error("Seeding failed:", err.message);
-  process.exit(1);
-});
+module.exports = { handleClerkWebhook };

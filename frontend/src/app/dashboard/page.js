@@ -1,5 +1,5 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,18 +14,55 @@ const QUICK_LINKS = [
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
   const router = useRouter();
   const [dbUser, setDbUser] = useState(null);
+  const [hasSubscription, setHasSubscription] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!isLoaded) return;
-    if (user) {
-      router.replace("/add-package");
-    }
-  }, [isLoaded, user, router]);
 
-  if (!isLoaded || user) {
+    if (!user) {
+      router.replace("/login");
+      return;
+    }
+
+    const checkSubscription = async () => {
+      try {
+        const token = await getToken();
+        if (!token) return;
+
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+        const hasSub = data.success && Array.isArray(data.orders) && data.orders.length > 0;
+        setHasSubscription(hasSub);
+        if (!hasSub) {
+          router.replace("/add-package");
+        }
+      } catch (err) {
+        console.error("Failed to verify subscription", err);
+      }
+    };
+
+    checkSubscription();
+  }, [isLoaded, user, getToken, router]);
+
+  if (!isLoaded || hasSubscription === null) {
+    return (
+      <div className={styles.loadingState}>
+        <i className="fas fa-spinner fa-spin" style={{ color: "#F5C400" }} />
+        Loading your dashboard...
+      </div>
+    );
+  }
+
+  if (hasSubscription === false) {
     return (
       <div className={styles.loadingState}>
         <i className="fas fa-spinner fa-spin" style={{ color: "#F5C400" }} />

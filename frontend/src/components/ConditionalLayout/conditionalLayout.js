@@ -22,6 +22,7 @@ const DASHBOARD_PREFIXES = [
   "/storage",
   "/reports",
   "/hr",
+  "/hr-ops",
   "/settings",
   "/search",
 ];

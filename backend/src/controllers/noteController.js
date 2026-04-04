@@ -8,7 +8,7 @@ async function getNotes(req, res) {
       `SELECT n.*, l.name as lead_name
        FROM notes n
        LEFT JOIN leads l ON l.id = n.lead_id
-       WHERE n.user_id = (SELECT id FROM users WHERE clerk_user_id = ? LIMIT 1)
+       WHERE n.created_by = (SELECT id FROM users WHERE clerk_user_id = ? LIMIT 1)
        ORDER BY n.created_at DESC`,
       [userId]
     );
@@ -34,7 +34,7 @@ async function createNote(req, res) {
     if (!user) return res.status(404).json({ success: false, message: "User not found" });
 
     const [result] = await pool.execute(
-      "INSERT INTO notes (user_id, title, content, lead_id) VALUES (?, ?, ?, ?)",
+      "INSERT INTO notes (created_by, title, content, lead_id) VALUES (?, ?, ?, ?)",
       [user.id, title || null, content, lead_id || null]
     );
     res.json({ success: true, id: result.insertId });

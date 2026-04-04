@@ -3,7 +3,6 @@ const { getAuth } = require("@clerk/express");
 
 async function search(req, res) {
   try {
-    const { userId } = getAuth(req);
     const { q } = req.query;
 
     if (!q || q.trim().length < 2) {
@@ -14,7 +13,7 @@ async function search(req, res) {
 
     const [leads] = await pool.execute(
       `SELECT 'lead' as type, id, name as title, email as subtitle, status as meta, created_at
-       FROM leads WHERE name LIKE ? OR email LIKE ? OR company LIKE ? LIMIT 5`,
+       FROM leads WHERE name LIKE ? OR email LIKE ? OR company_name LIKE ? LIMIT 5`,
       [like, like, like]
     );
 

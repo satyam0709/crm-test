@@ -38,6 +38,7 @@ const isDashboardRoute = createRouteMatcher([
   "/storage(.*)",
   "/reports(.*)",
   "/hr(.*)",
+  "/hr-ops(.*)",
   "/settings(.*)",
   "/search(.*)",
 ]);

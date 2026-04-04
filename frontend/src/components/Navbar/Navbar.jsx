@@ -198,7 +198,7 @@ export default function Navbar() {
               alt="RND CRM Logo"
               width={130}
               height={50}
-              className={`${styles.navLogo} logo-blend`} // Combining local size + global blend
+              className={`${styles.navLogo} logo-blend`}
             />
           </Link>
 

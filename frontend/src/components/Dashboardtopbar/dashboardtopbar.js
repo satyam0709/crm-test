@@ -3,24 +3,25 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, useUser } from "@clerk/nextjs";
 import ThemeToggle from "../Navbar/ThemeToggle";
 import styles from "./dashboardtopbar.module.css";
 
 const QUICK_ACTIONS = [
-  { label: "Lead", icon: "fa-filter", href: "/leads/new" },
-  { label: "Task", icon: "fa-list-check", href: "/tasks/new" },
-  { label: "Reminder", icon: "fa-bell", href: "/reminders/new" },
-  { label: "Meeting", icon: "fa-video", href: "/meetings/new" },
-  { label: "Note", icon: "fa-note-sticky", href: "/notes/new" },
-  { label: "Invoice", icon: "fa-file-invoice-dollar", href: "/invoice/sales/new" },
+  { label: "Lead",    icon: "fa-filter",               href: "/leads/new"        },
+  { label: "Task",    icon: "fa-list-check",            href: "/tasks/new"        },
+  { label: "Reminder",icon: "fa-bell",                  href: "/reminders/new"    },
+  { label: "Meeting", icon: "fa-video",                 href: "/meetings/new"     },
+  { label: "Note",    icon: "fa-note-sticky",           href: "/notes/new"        },
+  { label: "Invoice", icon: "fa-file-invoice-dollar",   href: "/invoice/sales/new"},
 ];
 
-export default function DashboardTopbar({ onMenuToggle, sidebarCollapsed }) {
+export default function DashboardTopbar({ onMenuToggle }) {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchVal, setSearchVal] = useState("");
+  const [searchVal,  setSearchVal]  = useState("");
   const searchRef = useRef(null);
-  const router = useRouter();
+  const router    = useRouter();
+  const { user }  = useUser();
 
   useEffect(() => {
     if (searchOpen) searchRef.current?.focus();
@@ -35,22 +36,35 @@ export default function DashboardTopbar({ onMenuToggle, sidebarCollapsed }) {
     }
   };
 
+  const firstName = user?.firstName || "";
+  const lastName  = user?.lastName  || "";
+  const fullName  = [firstName, lastName].filter(Boolean).join(" ") || "User";
+  const role      = user?.publicMetadata?.role || "Member";
+
   return (
     <header className={styles.topbar}>
+      {/* Left: hamburger + quick actions */}
       <div className={styles.left}>
         <button className={styles.menuBtn} onClick={onMenuToggle} aria-label="Toggle menu">
           <i className="fas fa-bars" />
         </button>
+
         <div className={styles.quickActions}>
-          {QUICK_ACTIONS.map((a) => (
-            <Link key={a.label} href={a.href} className={styles.quickBtn}>
-              <i className={`fas ${a.icon}`} />
-              <span>{a.label}</span>
-            </Link>
+          {QUICK_ACTIONS.map((a, i) => (
+            <span key={a.label} className={styles.quickGroup}>
+              <Link href={a.href} className={styles.quickBtn}>
+                <i className={`fas ${a.icon}`} />
+                <span>{a.label}</span>
+              </Link>
+              {i < QUICK_ACTIONS.length - 1 && (
+                <span className={styles.pipe}>|</span>
+              )}
+            </span>
           ))}
         </div>
       </div>
 
+      {/* Right: search, theme, notifications, user */}
       <div className={styles.right}>
         <form
           className={`${styles.searchForm} ${searchOpen ? styles.searchOpen : ""}`}
@@ -84,11 +98,13 @@ export default function DashboardTopbar({ onMenuToggle, sidebarCollapsed }) {
         </button>
 
         <div className={styles.userArea}>
+          <div className={styles.userMeta}>
+            <span className={styles.userName}>{fullName}</span>
+            <span className={styles.userRole}>{String(role)}</span>
+          </div>
           <UserButton
             appearance={{
-              elements: {
-                avatarBox: { width: 34, height: 34 },
-              },
+              elements: { avatarBox: { width: 32, height: 32 } },
             }}
           />
         </div>

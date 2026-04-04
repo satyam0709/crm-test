@@ -7,11 +7,11 @@ import SubscriptionGate from "../../components/SubscriptionGate/subscriptionGate
 import styles from "./layout.module.css";
 
 export default function DashboardLayout({ children }) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [collapsed,   setCollapsed]   = useState(false);
+  const [mobileOpen,  setMobileOpen]  = useState(false);
 
   const toggleSidebar = () => {
-    if (window.innerWidth <= 768) {
+    if (typeof window !== "undefined" && window.innerWidth <= 768) {
       setMobileOpen((v) => !v);
     } else {
       setCollapsed((v) => !v);
@@ -34,13 +34,8 @@ export default function DashboardLayout({ children }) {
           onToggle={() => setCollapsed((v) => !v)}
         />
 
-        <div
-          className={`${styles.main} ${collapsed ? styles.mainCollapsed : ""}`}
-        >
-          <DashboardTopbar
-            onMenuToggle={toggleSidebar}
-            sidebarCollapsed={collapsed}
-          />
+        <div className={`${styles.main} ${collapsed ? styles.mainCollapsed : ""}`}>
+          <DashboardTopbar onMenuToggle={toggleSidebar} />
           <main className={styles.content}>{children}</main>
         </div>
       </div>

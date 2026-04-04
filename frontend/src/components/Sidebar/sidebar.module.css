@@ -1,5 +1,5 @@
 .sidebar {
-  width: 248px;
+  width: 240px;
   min-height: 100vh;
   background: var(--bg-card);
   border-right: 1px solid var(--border);
@@ -12,43 +12,31 @@
   z-index: 200;
   transition: width 280ms cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.04);
+  box-shadow: 2px 0 16px rgba(0,0,0,0.05);
 }
 
 .collapsed {
   width: 68px;
 }
 
-/* ── Logo Area ── */
+/* Logo */
 .logoArea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
-  height: 64px;
+  padding: 0 12px;
+  height: 60px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
-  position: relative;
-}
-
-.logoArea::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 14px;
-  right: 14px;
-  height: 2px;
-  background: var(--yellow);
-  border-radius: 2px 2px 0 0;
 }
 
 .brand {
   display: flex;
   align-items: center;
   text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
   gap: 1px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .logoMark {
@@ -57,7 +45,7 @@
   font-family: 'Montserrat', sans-serif;
   font-size: 11px;
   font-weight: 900;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   padding: 5px 8px;
   border-radius: 6px 0 0 6px;
   flex-shrink: 0;
@@ -68,9 +56,9 @@
   background: var(--bg-deep);
   color: #ffffff;
   font-family: 'Montserrat', sans-serif;
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   padding: 5px 8px;
   border-radius: 0 6px 6px 0;
   white-space: nowrap;
@@ -95,69 +83,76 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  letter-spacing: -0.02em;
 }
 
 .collapseBtn {
-  background: transparent;
+  background: var(--bg-hover);
   border: 1px solid var(--border);
   color: var(--text-muted);
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 9px;
+  font-size: 8px;
   flex-shrink: 0;
-  transition: background 140ms ease, color 140ms ease, border-color 140ms ease, transform 140ms ease;
+  transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
 }
 
 .collapseBtn:hover {
   background: var(--yellow-tint);
   color: var(--yellow-hover);
   border-color: var(--yellow);
-  transform: scale(1.05);
 }
 
 .collapsed .collapseBtn {
   margin: 0 auto;
 }
 
-/* ── Nav ── */
+/* Nav */
 .nav {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 10px 0 20px;
+  padding: 8px 0 16px;
   scrollbar-width: thin;
   scrollbar-color: var(--grey-400) transparent;
 }
 
+.nav::-webkit-scrollbar { width: 3px; }
+.nav::-webkit-scrollbar-track { background: transparent; }
+.nav::-webkit-scrollbar-thumb { background: var(--grey-400); border-radius: 3px; }
+
+.section {
+  margin-bottom: 4px;
+}
+
 .navSection {
-  padding: 16px 14px 4px;
+  padding: 14px 14px 4px;
   font-family: 'Montserrat', sans-serif;
   font-size: 9px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   color: var(--text-faint);
   text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: opacity 200ms ease;
 }
 
-.collapsed .navSection {
-  opacity: 0;
+.sectionDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 10px;
 }
 
+/* Nav Item */
 .navItem {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 9px 14px;
-  width: 100%;
+  padding: 6px 10px;
+  margin: 1px 8px;
+  width: calc(100% - 16px);
   font-family: 'Montserrat', sans-serif;
   font-size: 12.5px;
   font-weight: 600;
@@ -169,17 +164,17 @@
   position: relative;
   white-space: nowrap;
   transition: background 120ms ease, color 120ms ease;
-  border-radius: 0;
+  border-radius: 8px;
   line-height: 1;
 }
 
 .navItem:hover {
-  background: var(--yellow-tint);
+  background: var(--bg-hover);
   color: var(--text-main);
 }
 
 .navItem.active {
-  background: linear-gradient(90deg, var(--yellow-tint) 0%, rgba(245,196,0,0.04) 100%);
+  background: var(--yellow-tint);
   color: var(--yellow-hover);
   font-weight: 700;
 }
@@ -187,7 +182,7 @@
 .navItem.active::before {
   content: '';
   position: absolute;
-  left: 0;
+  left: -8px;
   top: 6px;
   bottom: 6px;
   width: 3px;
@@ -195,16 +190,21 @@
   border-radius: 0 3px 3px 0;
 }
 
-.icon {
-  font-size: 14px;
-  width: 22px;
-  text-align: center;
+/* Colored icon badge */
+.iconBadge {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
   flex-shrink: 0;
   transition: transform 150ms ease;
 }
 
-.navItem:hover .icon {
-  transform: scale(1.1);
+.navItem:hover .iconBadge {
+  transform: scale(1.08);
 }
 
 .label {
@@ -222,7 +222,7 @@
 }
 
 .arrowOpen {
-  transform: rotate(180deg);
+  transform: rotate(90deg);
   opacity: 1;
 }
 
@@ -232,10 +232,10 @@
   background: var(--yellow);
   border-radius: 50%;
   flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(245, 196, 0, 0.5);
+  box-shadow: 0 0 6px rgba(245,196,0,0.5);
 }
 
-/* ── Submenu Group ── */
+/* Submenu */
 .group {
   display: flex;
   flex-direction: column;
@@ -244,16 +244,9 @@
 .subMenu {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 280ms cubic-bezier(0.16, 1, 0.3, 1);
-  background: rgba(0,0,0,0.015);
-  border-left: 2px solid var(--border);
-  margin-left: 22px;
+  transition: max-height 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  margin-left: 48px;
   margin-right: 8px;
-  border-radius: 0 0 6px 6px;
-}
-
-[data-theme="dark"] .subMenu {
-  background: rgba(255,255,255,0.02);
 }
 
 .subMenuOpen {
@@ -263,21 +256,22 @@
 .subItem {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
+  gap: 8px;
+  padding: 7px 10px;
   font-family: 'Montserrat', sans-serif;
   font-size: 11.5px;
   font-weight: 500;
   color: var(--text-muted);
   text-decoration: none;
-  transition: background 120ms ease, color 120ms ease, padding-left 120ms ease;
-  border-radius: 0 6px 6px 0;
+  transition: background 100ms ease, color 100ms ease, padding-left 100ms ease;
+  border-radius: 6px;
+  margin-bottom: 1px;
 }
 
 .subItem:hover {
-  background: var(--yellow-tint);
+  background: var(--bg-hover);
   color: var(--text-main);
-  padding-left: 16px;
+  padding-left: 14px;
 }
 
 .subItemActive {
@@ -293,69 +287,20 @@
   background: currentColor;
   flex-shrink: 0;
   opacity: 0.4;
-  transition: opacity 120ms ease, transform 120ms ease;
+  transition: opacity 100ms ease, transform 100ms ease;
 }
 
-.subItem:hover .subDot {
-  opacity: 0.7;
-  transform: scale(1.3);
+.subItem:hover .subDot,
+.subItemActive .subDot {
+  opacity: 1;
+  transform: scale(1.4);
 }
 
 .subItemActive .subDot {
-  opacity: 1;
   background: var(--yellow);
-  transform: scale(1.3);
 }
 
-/* ── Bottom user section ── */
-.sidebarFooter {
-  padding: 12px 14px;
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  overflow: hidden;
-}
-
-.footerAvatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--yellow);
-  color: var(--bg-deep);
-  font-family: 'Montserrat', sans-serif;
-  font-size: 11px;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.footerInfo {
-  overflow: hidden;
-  flex: 1;
-}
-
-.footerName {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-main);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.footerRole {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 10px;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-/* ── Mobile ── */
+/* Mobile */
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
@@ -365,8 +310,8 @@
 
   .sidebar.mobileOpen {
     transform: translateX(0);
-    width: 248px;
-    box-shadow: 4px 0 32px rgba(0, 0, 0, 0.15);
+    width: 240px;
+    box-shadow: 4px 0 32px rgba(0,0,0,0.15);
   }
 
   .collapsed {

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 const UNGATED = ["/add-package"];
+const VALID_STATUSES = ["active", "trial"];
 
 export default function SubscriptionGate({ children }) {
   const { getToken, isLoaded, userId } = useAuth();
@@ -39,12 +40,12 @@ export default function SubscriptionGate({ children }) {
         const data = await res.json();
         if (cancelled) return;
 
-        const hasSub =
+        const hasValidSub =
           data.success &&
           Array.isArray(data.orders) &&
-          data.orders.length > 0;
+          data.orders.some((order) => VALID_STATUSES.includes(order.status));
 
-        if (hasSub) {
+        if (hasValidSub) {
           setStatus("ok");
         } else {
           setStatus("locked");

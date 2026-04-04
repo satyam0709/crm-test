@@ -220,6 +220,7 @@ export default function AddPackagePage() {
   const plans = PLANS[currency];
   const addons = ADDONS[currency];
   const cartCount = (cart.plan ? 1 : 0) + cart.addons.length;
+  const selectedPlanId = cart.plan?.id;
 
   const toggleExpand = (planId) => {
     setExpandedCards((prev) => ({ ...prev, [planId]: !prev[planId] }));
@@ -298,7 +299,6 @@ export default function AddPackagePage() {
       {/* ── Header ── */}
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <img src="/assets/logo.png" alt="RND CRM" className={styles.logo} />
           <h1 className={styles.title}>Renew Packages &amp; Addon Service</h1>
         </div>
         <div className={styles.controls}>
@@ -329,7 +329,7 @@ export default function AddPackagePage() {
       {/* ── Plan Cards ── */}
       <div className={styles.planGrid}>
         {plans.map((plan) => {
-          const isSelected = cart.plan?.id === plan.id;
+          const isSelected = selectedPlanId === plan.id;
           const isExpanded = expandedCards[plan.id];
           return (
             <div
@@ -448,30 +448,23 @@ export default function AddPackagePage() {
               <p style={{ color: "var(--text-muted)", fontSize: 14, padding: "24px 0" }}>Your cart is empty.</p>
             ) : (
               <>
-                {selectedPlan && (
+                {cart.plan && (
                   <div className={styles.modalAddonCard}>
                     <strong style={{ fontFamily: "var(--font-display)", fontSize: 14 }}>
-                      {plans.find((p) => p.id === selectedPlan)?.name} Plan
+                      {cart.plan.name} Plan
                     </strong>
                     <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
-                      {plans.find((p) => p.id === selectedPlan)?.price} / Year
+                      {cart.plan.price} / Year
                     </span>
                   </div>
                 )}
-                {cart.map((id) => {
-                  const a = addons.find((x) => x.id === id);
-                  return a ? (
-                    <div key={id} className={styles.modalAddonCard}>
-                      <strong style={{ fontFamily: "var(--font-display)", fontSize: 14 }}>{a.name}</strong>
-                      <span style={{ fontSize: 13, color: "var(--text-muted)" }}>{a.price}</span>
-                    </div>
-                  ) : null;
-                })}
+                {cart.addons.map((addon) => (
+                  <div key={addon.id} className={styles.modalAddonCard}>
+                    <strong style={{ fontFamily: "var(--font-display)", fontSize: 14 }}>{addon.name}</strong>
+                    <span style={{ fontSize: 13, color: "var(--text-muted)" }}>{addon.price}</span>
+                  </div>
+                ))}
               </>
-
-
-
-
             )}
             <div className={styles.modalActions}>
               <button className={styles.secondaryBtn} onClick={() => setShowCartModal(false)}>Close</button>
@@ -508,7 +501,7 @@ export default function AddPackagePage() {
 
               <div className={styles.renewAddonGrid}>
                 {addons.map((addon) => {
-                  const isSelected = modalSelectedAddons.includes(addon.id);
+                  const isSelected = modalSelectedAddons.some((a) => a.id === addon.id);
                   return (
                     <div
                       key={addon.id}

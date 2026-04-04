@@ -16,12 +16,12 @@ const QUICK_ACTIONS = [
   { label: "Invoice", icon: "fa-file-invoice-dollar",   href: "/invoice/sales/new"},
 ];
 
-export default function DashboardTopbar({ onMenuToggle }) {
+  export default function DashboardTopbar({ onMenuToggle, collapsed }) {
   const [searchOpen, setSearchOpen] = useState(false);
-  const [searchVal,  setSearchVal]  = useState("");
+  const [searchVal, setSearchVal] = useState("");
   const searchRef = useRef(null);
-  const router    = useRouter();
-  const { user }  = useUser();
+  const router = useRouter();
+  const { user } = useUser();
 
   useEffect(() => {
     if (searchOpen) searchRef.current?.focus();
@@ -37,14 +37,14 @@ export default function DashboardTopbar({ onMenuToggle }) {
   };
 
   const firstName = user?.firstName || "";
-  const lastName  = user?.lastName  || "";
-  const fullName  = [firstName, lastName].filter(Boolean).join(" ") || "User";
-  const role      = user?.publicMetadata?.role || "Member";
+  const lastName = user?.lastName || "";
+  const fullName = [firstName, lastName].filter(Boolean).join(" ") || "User";
+  const role = user?.publicMetadata?.role || "Member";
 
   return (
-    <header className={styles.topbar}>
-      {/* Left: hamburger + quick actions */}
-      <div className={styles.left}>
+    // Apply the dynamic classes here
+    <header className={`${styles.topbar} ${collapsed ? styles.topbarCollapsed : styles.topbarExpanded}`}> 
+         <div className={styles.left}>
         <button className={styles.menuBtn} onClick={onMenuToggle} aria-label="Toggle menu">
           <i className="fas fa-bars" />
         </button>
@@ -64,7 +64,6 @@ export default function DashboardTopbar({ onMenuToggle }) {
         </div>
       </div>
 
-      {/* Right: search, theme, notifications, user */}
       <div className={styles.right}>
         <form
           className={`${styles.searchForm} ${searchOpen ? styles.searchOpen : ""}`}

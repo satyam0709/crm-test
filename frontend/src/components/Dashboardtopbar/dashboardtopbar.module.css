@@ -1,7 +1,6 @@
 .topbar {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
   height: 60px;
   background: var(--bg-card);
@@ -12,6 +11,25 @@
   padding: 0 16px 0 0;
   z-index: 100;
   gap: 12px;
+  /* Add transition so it slides smoothly */
+  transition: left 0.3s ease; 
+}
+
+/* Make sure 260px matches your exact expanded sidebar width */
+.topbarExpanded {
+  left: 260px; 
+}
+
+/* Make sure 80px matches your exact collapsed sidebar width */
+.topbarCollapsed {
+  left: 80px; 
+}
+
+/* On mobile, the topbar should stretch fully across the screen */
+@media (max-width: 768px) {
+  .topbarExpanded, .topbarCollapsed {
+    left: 0;
+  }
 }
 
 .left {

@@ -35,7 +35,7 @@ export default function DashboardLayout({ children }) {
         />
 
         <div className={`${styles.main} ${collapsed ? styles.mainCollapsed : ""}`}>
-          <DashboardTopbar onMenuToggle={toggleSidebar} />
+          <DashboardTopbar onMenuToggle={toggleSidebar} isExpanded={!collapsed} />
           <main className={styles.content}>{children}</main>
         </div>
       </div>

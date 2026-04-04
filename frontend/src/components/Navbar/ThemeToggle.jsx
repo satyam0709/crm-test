@@ -8,7 +8,9 @@ export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   if (!mounted) return <div className={styles.placeholder} />;
 
@@ -17,7 +19,6 @@ export default function ThemeToggle() {
       className={styles.btn}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
       aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      title={theme === "dark" ? "Light mode" : "Dark mode"}
     >
       {theme === "dark" ? "☀️" : "🌑"}
     </button>

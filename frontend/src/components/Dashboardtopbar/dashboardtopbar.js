@@ -42,7 +42,6 @@ const QUICK_ACTIONS = [
   const role = user?.publicMetadata?.role || "Member";
 
   return (
-    // Apply the dynamic classes here
     <header className={`${styles.topbar} ${collapsed ? styles.topbarCollapsed : styles.topbarExpanded}`}> 
          <div className={styles.left}>
         <button className={styles.menuBtn} onClick={onMenuToggle} aria-label="Toggle menu">

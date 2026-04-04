@@ -142,6 +142,12 @@ export default function Navbar() {
   const [activeDrop, setActiveDrop] = useState(null);
   const [mobileExpand, setMobileExpand] = useState(null);
   const closeTimer = useRef(null);
+  const { resolvedTheme } = useTheme();
+const [mounted, setMounted] = useState(false);
+
+useEffect(() => {
+  setMounted(true);
+}, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -194,11 +200,17 @@ export default function Navbar() {
             aria-label="RND TECHNOSOFT Home"
           >
             <Image
-              src={resolvedTheme === "dark" ? "/assets/365-rnd-crm-logo-dark.svg" : "/assets/365-rnd-crm-logo-transparent.svg"}
+              src={
+                resolvedTheme === "dark"
+                  ? "/assets/365-rnd-crm-logo-dark.svg"
+                  : "/assets/365-rnd-crm-logo-transparent.svg"
+              }
               alt="RND CRM Logo"
-              width={130}
-              height={50}
-              className={`${styles.navLogo} logo-blend`}
+              width={220} // Match your CSS width
+              height={80} // Match your CSS height
+              className={styles.navLogo}
+              priority // Crucial for theme switching
+              key={resolvedTheme} // Forces a re-render when theme changes
             />
           </Link>
 
@@ -302,111 +314,111 @@ export default function Navbar() {
                   onMouseEnter={() => openDrop("integrations")}
                   onMouseLeave={closeDrop}
                 >
-                <button
-                  className={`${styles.navLink} ${activeDrop === "integrations" ? styles.navLinkActive : ""}`}
-                  aria-haspopup="true"
-                  aria-expanded={activeDrop === "integrations"}
-                >
-                  Integrations{" "}
-                  <span className={styles.chevron} aria-hidden="true" />
-                </button>
-                {activeDrop === "integrations" && (
-                  <div
-                    className={`${styles.dropdown} ${styles.dropdownMedium}`}
-                    onMouseEnter={() => openDrop("integrations")}
-                    onMouseLeave={closeDrop}
-                    role="menu"
+                  <button
+                    className={`${styles.navLink} ${activeDrop === "integrations" ? styles.navLinkActive : ""}`}
+                    aria-haspopup="true"
+                    aria-expanded={activeDrop === "integrations"}
                   >
-                    <ul className={styles.dropList}>
-                      {INTEGRATIONS.map((item) => (
-                        <li key={item.href}>
-                          <Link
-                            href={item.href}
-                            className={`${styles.dropItem} ${pathname === item.href ? styles.active : ""}`}
-                            role="menuitem"
-                            onClick={() => setActiveDrop(null)}
-                          >
-                            {item.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </li>
-
-              <li
-                className={styles.navItem}
-                onMouseEnter={() => openDrop("calculators")}
-                onMouseLeave={closeDrop}
-              >
-                <button
-                  className={`${styles.navLink} ${activeDrop === "calculators" ? styles.navLinkActive : ""}`}
-                  aria-haspopup="true"
-                  aria-expanded={activeDrop === "calculators"}
-                >
-                  Calculators{" "}
-                  <span className={styles.chevron} aria-hidden="true" />
-                </button>
-                {activeDrop === "calculators" && (
-                  <div
-                    className={`${styles.dropdown} ${styles.megaMenu}`}
-                    onMouseEnter={() => openDrop("calculators")}
-                    onMouseLeave={closeDrop}
-                    role="menu"
-                  >
-                    <div className={styles.megaCols}>
-                      {CALCULATORS.map((section) => (
-                        <div
-                          key={section.heading}
-                          className={styles.megaSection}
-                        >
-                          <h6 className={styles.megaHeading}>
-                            {section.heading}
-                          </h6>
-                          <ul className={styles.dropList}>
-                            {section.items.map((item) => (
-                              <li key={item.href}>
-                                <Link
-                                  href={item.href}
-                                  className={`${styles.dropItem} ${pathname === item.href ? styles.active : ""}`}
-                                  role="menuitem"
-                                  onClick={() => setActiveDrop(null)}
-                                >
-                                  <i
-                                    className={`${item.icon} ${styles.dropIcon}`}
-                                    aria-hidden="true"
-                                  />
-                                  {item.label}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
+                    Integrations{" "}
+                    <span className={styles.chevron} aria-hidden="true" />
+                  </button>
+                  {activeDrop === "integrations" && (
+                    <div
+                      className={`${styles.dropdown} ${styles.dropdownMedium}`}
+                      onMouseEnter={() => openDrop("integrations")}
+                      onMouseLeave={closeDrop}
+                      role="menu"
+                    >
+                      <ul className={styles.dropList}>
+                        {INTEGRATIONS.map((item) => (
+                          <li key={item.href}>
+                            <Link
+                              href={item.href}
+                              className={`${styles.dropItem} ${pathname === item.href ? styles.active : ""}`}
+                              role="menuitem"
+                              onClick={() => setActiveDrop(null)}
+                            >
+                              {item.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  </div>
-                )}
-              </li>
+                  )}
+                </li>
 
-              <li className={styles.navItem}>
-                <Link
-                  href="/blog"
-                  className={`${styles.navLink} ${pathname === "/blog" ? styles.active : ""}`}
+                <li
+                  className={styles.navItem}
+                  onMouseEnter={() => openDrop("calculators")}
+                  onMouseLeave={closeDrop}
                 >
-                  Blog
-                </Link>
-              </li>
-              <li className={styles.navItem}>
-                <Link
-                  href="/contact-us"
-                  className={`${styles.navLink} ${pathname === "/contact-us" ? styles.active : ""}`}
-                >
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
-          </nav>
+                  <button
+                    className={`${styles.navLink} ${activeDrop === "calculators" ? styles.navLinkActive : ""}`}
+                    aria-haspopup="true"
+                    aria-expanded={activeDrop === "calculators"}
+                  >
+                    Calculators{" "}
+                    <span className={styles.chevron} aria-hidden="true" />
+                  </button>
+                  {activeDrop === "calculators" && (
+                    <div
+                      className={`${styles.dropdown} ${styles.megaMenu}`}
+                      onMouseEnter={() => openDrop("calculators")}
+                      onMouseLeave={closeDrop}
+                      role="menu"
+                    >
+                      <div className={styles.megaCols}>
+                        {CALCULATORS.map((section) => (
+                          <div
+                            key={section.heading}
+                            className={styles.megaSection}
+                          >
+                            <h6 className={styles.megaHeading}>
+                              {section.heading}
+                            </h6>
+                            <ul className={styles.dropList}>
+                              {section.items.map((item) => (
+                                <li key={item.href}>
+                                  <Link
+                                    href={item.href}
+                                    className={`${styles.dropItem} ${pathname === item.href ? styles.active : ""}`}
+                                    role="menuitem"
+                                    onClick={() => setActiveDrop(null)}
+                                  >
+                                    <i
+                                      className={`${item.icon} ${styles.dropIcon}`}
+                                      aria-hidden="true"
+                                    />
+                                    {item.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </li>
+
+                <li className={styles.navItem}>
+                  <Link
+                    href="/blog"
+                    className={`${styles.navLink} ${pathname === "/blog" ? styles.active : ""}`}
+                  >
+                    Blog
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link
+                    href="/contact-us"
+                    className={`${styles.navLink} ${pathname === "/contact-us" ? styles.active : ""}`}
+                  >
+                    Contact Us
+                  </Link>
+                </li>
+              </ul>
+            </nav>
           )}
           <div className={styles.authButtons}>
             <ThemeToggle />

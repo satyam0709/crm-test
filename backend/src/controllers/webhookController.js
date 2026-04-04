@@ -1,5 +1,5 @@
 const { Webhook } = require("svix");
-const { pool } = require("../config/database"); // Ensure path is correct
+const { pool } = require("../config/database");
 require("dotenv").config();
 
 async function handleClerkWebhook(req, res) {
@@ -10,8 +10,7 @@ async function handleClerkWebhook(req, res) {
     return res.status(500).json({ message: "Webhook secret not configured" });
   }
 
-  // FIXED: Ensure Svix gets the raw string payload
-  const payload = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+  const payload = req.body;
   const headers = {
     "svix-id": req.headers["svix-id"],
     "svix-timestamp": req.headers["svix-timestamp"],
@@ -32,7 +31,6 @@ async function handleClerkWebhook(req, res) {
   console.log(`📩 Clerk webhook received: ${type}`);
 
   try {
-    // Combine Create/Update for reliability
     if (type === "user.created" || type === "user.updated") {
       const email = data.email_addresses?.[0]?.email_address || "";
       const firstName = data.first_name || "";

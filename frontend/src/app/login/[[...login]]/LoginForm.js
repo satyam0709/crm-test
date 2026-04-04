@@ -22,6 +22,12 @@ export default function LoginForm() {
         const token = await getToken();
         if (!token) return;
 
+        // Sync Clerk user with backend DB immediately after login
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/sync`, {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` },
         });

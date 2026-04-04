@@ -1,21 +1,18 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
-import Providers from "./providers";
+import ConditionalLayout from "@/components/ConditionalLayout/conditionalLayout";
 import "./globals.css";
-import ContactPopup from "@/components/contactpopup/ContactPopup";
+
+export const metadata = {
+  title: "RND Technosoft CRM",
+  description: "Smart CRM for growing businesses",
+};
 
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body suppressHydrationWarning>
-          <Providers>
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-            <ContactPopup />
-          </Providers>
+          <ConditionalLayout>{children}</ConditionalLayout>
         </body>
       </html>
     </ClerkProvider>

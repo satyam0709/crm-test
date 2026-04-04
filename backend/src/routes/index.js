@@ -1,7 +1,7 @@
 const express = require("express");
 const { requireAuth } = require("@clerk/express");
 const { handleClerkWebhook } = require("../controllers/webhookController");
-const { getMe } = require("../controllers/userController");
+const { getMe, syncCurrentUser } = require("../controllers/userController");
 const { submitContact, getContacts, markAsRead } = require("../controllers/contactController");
 const { clerkVerify } = require("../middleware/clerk-verify");
 const leadsRouter = require("./leads");
@@ -24,6 +24,7 @@ router.get("/health", (_req, res) =>
 
 router.post("/webhook/clerk", handleClerkWebhook);
 
+router.post("/users/sync", requireAuth(), clerkVerify, syncCurrentUser);
 router.get("/users/me", requireAuth(), clerkVerify, getMe);
 router.use("/users", usersRouter);
 router.use("/leads", leadsRouter);

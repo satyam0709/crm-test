@@ -11,6 +11,7 @@
   bottom: 0;
   z-index: 200;
   transition: width 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  /* Keep overflow hidden so width-clipping works during collapse animation */
   overflow: hidden;
   box-shadow: 2px 0 16px rgba(0,0,0,0.05);
 }
@@ -26,8 +27,10 @@
   justify-content: space-between;
   padding: 0 12px;
   height: 60px;
+  min-height: 60px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  background: var(--bg-card);
 }
 
 .brand {
@@ -37,6 +40,15 @@
   gap: 1px;
   overflow: hidden;
   white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.logo {
+  width: auto;
+  height: 36px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .logoMark {
@@ -69,6 +81,7 @@
   display: flex;
   align-items: center;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logoMarkSm {
@@ -91,6 +104,7 @@
   color: var(--text-muted);
   width: 26px;
   height: 26px;
+  min-width: 26px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -111,19 +125,28 @@
   margin: 0 auto;
 }
 
-/* Nav */
+/* ─────────────────────────────────────────
+   THE KEY FIX:
+   .nav must have  min-height: 0  so that
+   flex layout lets it shrink below its
+   content size, enabling overflow-y:auto
+   to actually scroll instead of just
+   expanding the sidebar off-screen.
+───────────────────────────────────────── */
 .nav {
   flex: 1;
-  overflow-y: auto;
+  min-height: 0;          /* ← critical */
+  overflow-y: auto;       /* scroll when taller than available space */
   overflow-x: hidden;
   padding: 8px 0 16px;
   scrollbar-width: thin;
   scrollbar-color: var(--grey-400) transparent;
 }
 
-.nav::-webkit-scrollbar { width: 3px; }
-.nav::-webkit-scrollbar-track { background: transparent; }
-.nav::-webkit-scrollbar-thumb { background: var(--grey-400); border-radius: 3px; }
+.nav::-webkit-scrollbar       { width: 3px; }
+.nav::-webkit-scrollbar-track  { background: transparent; }
+.nav::-webkit-scrollbar-thumb  { background: var(--grey-400); border-radius: 3px; }
+.nav::-webkit-scrollbar-thumb:hover { background: var(--yellow-hover); }
 
 .section {
   margin-bottom: 4px;
@@ -137,6 +160,7 @@
   letter-spacing: 0.12em;
   color: var(--text-faint);
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .sectionDivider {
@@ -194,6 +218,7 @@
 .iconBadge {
   width: 30px;
   height: 30px;
+  min-width: 30px;
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -212,6 +237,7 @@
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .arrow {
@@ -229,6 +255,7 @@
 .activePip {
   width: 5px;
   height: 5px;
+  min-width: 5px;
   background: var(--yellow);
   border-radius: 50%;
   flex-shrink: 0;
@@ -266,6 +293,7 @@
   transition: background 100ms ease, color 100ms ease, padding-left 100ms ease;
   border-radius: 6px;
   margin-bottom: 1px;
+  white-space: nowrap;
 }
 
 .subItem:hover {
@@ -283,6 +311,7 @@
 .subDot {
   width: 4px;
   height: 4px;
+  min-width: 4px;
   border-radius: 50%;
   background: currentColor;
   flex-shrink: 0;
@@ -304,7 +333,8 @@
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
-    transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), width 280ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1),
+                width    280ms cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow: none;
   }
 

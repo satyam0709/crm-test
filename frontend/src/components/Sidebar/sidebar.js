@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 import styles from "./sidebar.module.css";
 import Image from "next/image";
 
@@ -78,15 +79,17 @@ const NAV = [
 
 export default function Sidebar({ collapsed, mobileOpen, onToggle }) {
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
   const [openMenus, setOpenMenus] = useState({});
 
   const toggleMenu = (label) =>
     setOpenMenus((prev) => ({ ...prev, [label]: !prev[label] }));
 
-  const isActive      = (href)     => pathname === href || pathname.startsWith(href + "/");
+  const isActive       = (href)     => pathname === href || pathname.startsWith(href + "/");
   const isParentActive = (children) => children?.some((c) => isActive(c.href));
 
   const renderItem = (item) => {
+    /* ── Items WITH children (accordion) ── */
     if (item.children) {
       const open         = openMenus[item.label] || isParentActive(item.children);
       const parentActive = isParentActive(item.children);
@@ -95,8 +98,9 @@ export default function Sidebar({ collapsed, mobileOpen, onToggle }) {
         <div key={item.label} className={styles.group}>
           <button
             className={`${styles.navItem} ${parentActive ? styles.active : ""}`}
-            onClick={() => toggleMenu(item.label)}
-            title={collapsed ? item.label : undefined}
+            onClick={() => !collapsed && toggleMenu(item.label)}
+            title={item.label}            /* always set title for tooltip */
+            aria-expanded={!collapsed && open}
           >
             <span
               className={styles.iconBadge}
@@ -104,6 +108,8 @@ export default function Sidebar({ collapsed, mobileOpen, onToggle }) {
             >
               <i className={`fas ${item.icon}`} />
             </span>
+
+            {/* Label + arrow — hidden when collapsed */}
             {!collapsed && (
               <>
                 <span className={styles.label}>{item.label}</span>
@@ -114,6 +120,7 @@ export default function Sidebar({ collapsed, mobileOpen, onToggle }) {
             )}
           </button>
 
+          {/* Sub-menu — hidden when collapsed */}
           {!collapsed && (
             <div className={`${styles.subMenu} ${open ? styles.subMenuOpen : ""}`}>
               {item.children.map((child) => (
@@ -132,12 +139,13 @@ export default function Sidebar({ collapsed, mobileOpen, onToggle }) {
       );
     }
 
+    /* ── Plain link items ── */
     return (
       <Link
         key={item.href}
         href={item.href}
         className={`${styles.navItem} ${isActive(item.href) ? styles.active : ""}`}
-        title={collapsed ? item.label : undefined}
+        title={item.label}              /* always set title for tooltip */
       >
         <span
           className={styles.iconBadge}
@@ -145,27 +153,49 @@ export default function Sidebar({ collapsed, mobileOpen, onToggle }) {
         >
           <i className={`fas ${item.icon}`} />
         </span>
-        {!collapsed && <span className={styles.label}>{item.label}</span>}
-        {isActive(item.href) && !collapsed && <span className={styles.activePip} />}
+
+        {/* Label + active pip — hidden when collapsed */}
+        {!collapsed && (
+          <>
+            <span className={styles.label}>{item.label}</span>
+            {isActive(item.href) && <span className={styles.activePip} />}
+          </>
+        )}
       </Link>
     );
   };
 
   return (
     <aside
-      className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""} ${mobileOpen ? styles.mobileOpen : ""}`}
+      className={[
+        styles.sidebar,
+        collapsed   ? styles.collapsed   : "",
+        mobileOpen  ? styles.mobileOpen  : "",
+      ].join(" ")}
     >
-      {/* Logo */}
+      {/* ── Logo area ── */}
       <div className={styles.logoArea}>
         {!collapsed ? (
           <Link href="/dashboard" className={styles.brand}>
-            <Image src="/assets/logo.png" alt="RND CRM" width={32} height={32} className={styles.logo} />
+            <Image
+              src={
+                resolvedTheme === "dark"
+                  ? "/assets/365-rnd-crm-logo-dark.svg"
+                  : "/assets/365-rnd-crm-logo-transparent.svg"
+              }
+              alt="RND CRM"
+              width={160}
+              height={40}
+              className={styles.logo}
+              priority
+            />
           </Link>
         ) : (
           <Link href="/dashboard" className={styles.brandIcon}>
             <span className={styles.logoMarkSm}>R</span>
           </Link>
         )}
+
         <button
           className={styles.collapseBtn}
           onClick={onToggle}
@@ -175,14 +205,17 @@ export default function Sidebar({ collapsed, mobileOpen, onToggle }) {
         </button>
       </div>
 
-      {/* Nav */}
+      {/* ── Nav ── */}
       <nav className={styles.nav}>
         {NAV.map((group) => (
           <div key={group.section} className={styles.section}>
+            {/* Section label — visible only when expanded */}
             {!collapsed && (
               <div className={styles.navSection}>{group.section}</div>
             )}
+            {/* Divider — visible only when collapsed */}
             {collapsed && <div className={styles.sectionDivider} />}
+
             {group.items.map(renderItem)}
           </div>
         ))}

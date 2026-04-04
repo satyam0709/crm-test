@@ -3,8 +3,7 @@ import ConditionalLayout from "@/components/ConditionalLayout/conditionalLayout"
 import "./globals.css";
 
 export const metadata = {
-  title: "RND Technosoft CRM",
-  description: "Smart CRM for growing businesses",
+  title: "365 RND CRM",
 };
 
 export default function RootLayout({ children }) {

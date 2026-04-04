@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useAuth, UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation"; // Import for active route detection
+import { useTheme } from "next-themes";
 import ThemeToggle from "./ThemeToggle";
 import styles from "./Navbar.module.css";
 import Image from "next/image";
@@ -134,6 +135,7 @@ const CALCULATORS = [
 export default function Navbar() {
   const { isSignedIn, isLoaded } = useAuth();
   const pathname = usePathname();
+  const { resolvedTheme } = useTheme();
   const homeHref = isSignedIn ? "/add-package" : "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -192,7 +194,7 @@ export default function Navbar() {
             aria-label="RND TECHNOSOFT Home"
           >
             <Image
-              src="/assets/logo.png"
+              src={resolvedTheme === "dark" ? "/assets/365-rnd-crm-logo-dark.svg" : "/assets/365-rnd-crm-logo-transparent.svg"}
               alt="RND CRM Logo"
               width={130}
               height={50}
